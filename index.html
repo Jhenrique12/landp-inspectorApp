@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspector App</title>
+    <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
+    <script src="./script.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #2196F3;
+            --dark-blue: #1976D2;
+            --light-blue: #E3F2FD;
+            --accent-orange: #FF9800;
+            --dark-gray: #333333;
+            --light-gray: #F5F5F5;
+            --white: #FFFFFF;
+            --success-green: #4CAF50;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        a {
+            color: #FF9800;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: var(--white);
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            background: #F57C00;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark-blue);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent-orange);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--light-gray);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-text h3 {
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Mobile Screenshot Placeholder */
+        .mobile-screenshot {
+            background: var(--white);
+            border: 3px dashed var(--primary-blue);
+            border-radius: 25px;
+            padding: 20px;
+            text-align: center;
+            color: var(--primary-blue);
+            font-weight: bold;
+            width: 300px;
+            height: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-screenshot:hover {
+            background: var(--light-blue);
+            transform: scale(1.02);
+        }
+
+        .mobile-screenshot::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 6px;
+            background: var(--primary-blue);
+            border-radius: 3px;
+            opacity: 0.3;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #E0E0E0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .feature-card h3 {
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Tutorial Section */
+        .tutorial {
+            background: var(--light-blue);
+        }
+
+        .tutorial-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+
+        .tutorial-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .tutorial-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .tutorial-number {
+            background: var(--accent-orange);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .tutorial-content {
+            padding: 2rem;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            margin: 2rem 0;
+            background: var(--light-gray);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .carousel-screenshot {
+            width: 250px;
+            height: 500px;
+            background: var(--white);
+            border: 2px solid var(--primary-blue);
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--primary-blue);
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .carousel-screenshot img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .carousel-screenshot strong br + * {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+
+        .carousel-screenshot::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background: var(--primary-blue);
+            border-radius: 2px;
+            opacity: 0.3;
+        }
+
+        .carousel-description {
+            text-align: center;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            max-width: 300px;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--accent-orange);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .carousel-nav:hover {
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .carousel-prev {
+            left: 1rem;
+        }
+
+        .carousel-next {
+            right: 1rem;
+        }
+
+        /* Steps List */
+        .steps-list {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .steps-list ol {
+            padding-left: 1.5rem;
+        }
+
+        .steps-list li {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: var(--white);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: var(--light-blue);
+            transform: translateX(10px);
+        }
+
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--success-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .benefit-text h4 {
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .tutorial-container {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-screenshot {
+                width: 250px;
+                height: 500px;
+            }
+
+            .carousel-screenshot {
+                width: 200px;
+                height: 400px;
+                padding: 8px;
+            }
+            
+            .carousel-screenshot img {
+                border-radius: 12px;
+            }
+            
+            .carousel-screenshot strong br + * {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-blue);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">Inspector App</div>
+            <ul class="nav-links">
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#funcionalidades">Funcionalidades</a></li>
+                <li><a href="#tutorial">Tutorial</a></li>
+                <li><a href="#beneficios">Benefícios</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Inspeções, Preventivas e Corretivas</h1>
+                <p>Crie relatórios profissionais, capture evidências e padronize processos.</p>
+                <a href="#sobre" class="cta-button">Conheça o App</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="about">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">Sobre o Aplicativo</h2>
+            <div class="about-content">
+                <div class="about-text scroll-reveal">
+                    <h3>Transforme suas Inspeções</h3>
+                    <p>Nosso aplicativo foi desenvolvido especificamente para a indústria de mineração, oferecendo uma solução completa para inspeções de campo. Com interface intuitiva e recursos avançados, você pode:</p>
+                    <ul style="margin: 1rem 0; padding-left: 2rem;">
+                        <li>Criar inspeções personalizadas ou usar modelos padronizados</li>
+                        <li>Capturar múltiplas fotos como evidências</li>
+                        <li>Gerar relatórios PDF profissionais automaticamente</li>
+                        <li>Trabalhar offline e sincronizar quando conectado</li>
+                        <li>Manter histórico completo de todas as inspeções</li>
+                    </ul>
+                </div>
+                
+                    <div>
+                        <img src="./assets/logo.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="funcionalidades" class="features">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">Principais Funcionalidades</h2>
+            <div class="features-grid">
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">1</div>
+                    <h3>Inspeções Personalizadas</h3>
+                    <p>Crie inspeções do zero com campos personalizados, múltiplas fotos e descrições detalhadas para cada item de evidência.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">2</div>
+                    <h3>Modelos Padronizados</h3>
+                    <p>Use templates pré-configurados para inspeções recorrentes. Crie seus próprios modelos e reutilize em futuras inspeções.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">3</div>
+                    <h3>Múltiplas Evidências</h3>
+                    <p>Capture quantas fotos precisar para cada item. Organize e visualize todas as evidências de forma clara e profissional.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">4</div>
+                    <h3>Relatórios PDF</h3>
+                    <p>Gere relatórios profissionais automaticamente com todas as informações, fotos e dados da inspeção organizados.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">5</div>
+                    <h3>Armazenamento Local</h3>
+                    <p>Todos os dados ficam salvos no dispositivo. Trabalhe offline e tenha acesso completo às suas inspeções a qualquer momento.</p>
+                </div>
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">6</div>
+                    <h3>Histórico Completo</h3>
+                    <p>Acesse o histórico de todas as inspeções realizadas, visualize relatórios anteriores.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutorial Section -->
+    <section id="tutorial" class="tutorial">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">Tutorial: Como Usar o Aplicativo</h2>
+            <div class="tutorial-container">
+                
+                <!-- Tutorial 1: Nova Inspeção -->
+                <div class="tutorial-card scroll-reveal">
+                    <div class="tutorial-header">
+                        <div class="tutorial-number">1</div>
+                        <h3>Nova Inspeção Personalizada</h3>
+                    </div>
+                    <div class="tutorial-content">
+                        <div class="steps-list">
+                            <ol>
+                                <li>Toque em "Nova Inspeção" na tela principal</li>
+                                <li>Digite o nome da máquina/equipamento</li>
+                                <li>Toque em "Iniciar Registro de Evidências"</li>
+                                <li>Adicione itens de evidência com fotos e descrições</li>
+                                <li>Finalize e gere o relatório PDF</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="carousel-container">
+                            <div class="carousel" id="carousel1">
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/1 main-page.png" alt=""></strong>
+                                    </div>
+                                    <div class="carousel-description">
+                                        Tela principal do aplicativo. Clique em Nova Inspeção para iniciar a inspeção personalizada.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/2 new-inspection.png" alt=""></strong>
+                                    </div>
+                                    <div class="carousel-description">
+                                        Digite o nome da máquina ou equipamento que será inspecionado e iniciar registro.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/3 register-evidence-new-inspection.png" alt=""></strong>
+                                        
+                                    </div>
+                                    <div class="carousel-description">
+                                        Tela onde você adiciona itens as evidências. Para iniciar, clique em adicionar evidência.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/4 add evidence.png" alt=""></strong>
+                                        
+                                    </div>
+                                    <div class="carousel-description">
+                                        Formulário para adicionar título, descrição e múltiplas fotos com câmera ou através da galeria. Após preencher, clique em adicionar item.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/5 evidence added.png" alt=""></strong>
+                                        
+                                    </div>
+                                    <div class="carousel-description">
+                                        Exemplo de tela com duas evidências adicionadas. Clique no botão no canto superior direito (✅) para gerar o relatório.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/15 pdf file new inspection.png" alt=""></strong>
+                                        
+                                    </div>
+                                    <div class="carousel-description">
+                                        Exemplo do PDF formatado para as inspeções personalizadas.
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <button class="carousel-nav carousel-prev" onclick="prevSlide('carousel1')">&lt;</button>
+                            <button class="carousel-nav carousel-next" onclick="nextSlide('carousel1')">&gt;</button>
+                            <div class="carousel-controls">
+                                <span class="carousel-dot active" onclick="currentSlide('carousel1', 1)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel1', 2)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel1', 3)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel1', 4)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel1', 5)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel1', 6)"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tutorial 2: Inspeção Padronizada -->
+                <div class="tutorial-card scroll-reveal">
+                    <div class="tutorial-header">
+                        <div class="tutorial-number">2</div>
+                        <h3>Inspeção com Modelo Padronizado</h3>
+                    </div>
+                    <div class="tutorial-content">
+                        <div class="steps-list">
+                            <ol>
+                                <li>Toque em "Cadastrar Modelo"</li>
+                                <li>Crie um modelo de inspeção</li>
+                                <li>Digite o nome da máquina</li>
+                                <li>Responda as questões (OK/Não OK/N/A)</li>
+                                <li>Adicione fotos e observações</li>
+                                <li>Gere o relatório final</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="carousel-container">
+                            <div class="carousel" id="carousel2">
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/1 main-page.png" alt=""></strong>
+                                       
+                                    </div>
+                                    <div class="carousel-description">
+                                        Tela principal do aplicativo. Clique em Cadastrar Modelos para criar seu primeiro modelo de inspeção.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/8 create template.png" alt=""></strong>
+                                    </div>
+                                    <div class="carousel-description">
+                                        Insira o nome da máquina e crie as perguntas. Após isso, salve o modelo clicando no botão superior direito.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/9 model with questions.png" alt=""></strong>
+                                    </div>
+                                    <div class="carousel-description">
+                                        Exemplo da tela com duas questões criadas. É possível editar e deletar a pergunta após adicioná-la e também reorganizá-la clicando, segurando e arrastando pra cima ou para baixo.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/11 select template.png" alt=""></strong>
+                                        
+                                    </div>
+                                    <div class="carousel-description">
+                                        Na tela principal, clique em Inspeção Padronizada e selecione o modelo criado para iniciar a inspeção. É possível editar e excluir os modelos criados.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/12 template name machine.png" alt=""></strong>
+                                        
+                                    </div>
+                                    <div class="carousel-description">
+                                        Escreva o nome da máquina e clique para confirmar a máquina e iniciar.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/13 aswer questions template.png" alt=""></strong>
+                                        
+                                    </div>
+                                    <div class="carousel-description">
+                                        Responda as perguntas com as opções de OK, Não OK ou N/A. Adicione uma ou mais imagens pela câmera (Tirar foto) ou galeria (Adicionar foto). Finalize o relatório clicando no botão superior direito (✅).
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/16 pdf file template.png" alt=""></strong>
+                                        
+                                    </div>
+                                    <div class="carousel-description">
+                                        Exemplo do PDF formatado para as inspeções padronizadas.
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <button class="carousel-nav carousel-prev" onclick="prevSlide('carousel2')">&lt;</button>
+                            <button class="carousel-nav carousel-next" onclick="nextSlide('carousel2')">&gt;</button>
+                            <div class="carousel-controls">
+                                <span class="carousel-dot active" onclick="currentSlide('carousel2', 1)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel2', 2)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel2', 3)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel2', 4)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel2', 5)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel2', 6)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel2', 7)"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tutorial 3: Relatórios -->
+                <div class="tutorial-card scroll-reveal">
+                    <div class="tutorial-header">
+                        <div class="tutorial-number">3</div>
+                        <h3>Visualizar Relatórios PDF</h3>
+                    </div>
+                    <div class="tutorial-content">
+                        <div class="steps-list">
+                            <ol>
+                                <li>Toque em "Relatórios PDF" na tela principal</li>
+                                <li>Visualize a lista de todos os relatórios</li>
+                                <li>Toque em um relatório para abrir</li>
+                                <li>Use zoom para ver detalhes das fotos</li>
+                                <li>Compartilhe ou exporte conforme necessário</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="carousel-container">
+                            <div class="carousel" id="carousel3">
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/1 main-page.png" alt=""></strong>
+                                       
+                                    </div>
+                                    <div class="carousel-description">
+                                        Tela principal do aplicativo. Clique em Relatórios PDF para visualizar o histórico dos relatórios criados.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/14 list PDF.png" alt=""></strong>
+                                    </div>
+                                    <div class="carousel-description">
+                                        Histórico de relatórios. Visualize, compartilhe ou delete os arquivos.
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="carousel-screenshot">
+                                        <strong><img src="./assets/15 pdf file new inspection.png" alt=""></strong>
+                                    </div>
+                                    <div class="carousel-description">
+                                        Exemplo de relatório. Use zoom para visualizar detalhes importantes nas fotos capturadas, todas mantêm a sua qualidade.
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav carousel-prev" onclick="prevSlide('carousel3')">&lt;</button>
+                            <button class="carousel-nav carousel-next" onclick="nextSlide('carousel3')">&gt;</button>
+                            <div class="carousel-controls">
+                                <span class="carousel-dot active" onclick="currentSlide('carousel3', 1)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel3', 2)"></span>
+                                <span class="carousel-dot" onclick="currentSlide('carousel3', 3)"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="beneficios" class="benefits">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">Benefícios para a Equipe</h2>
+            <div class="benefits-grid">
+                
+                <div class="benefit-item scroll-reveal">
+                    <div class="benefit-icon">P</div>
+                    <div class="benefit-text">
+                        <h4>Padronização</h4>
+                        <p>Garanta consistência em todas as inspeções com modelos padronizados.</p>
+                    </div>
+                </div>
+                <div class="benefit-item scroll-reveal">
+                    <div class="benefit-icon">E</div>
+                    <div class="benefit-text">
+                        <h4>Economia</h4>
+                        <p>Reduza retrabalho e otimize o tempo de criação de relatórios.</p>
+                    </div>
+                </div>
+                <div class="benefit-item scroll-reveal">
+                    <div class="benefit-icon">S</div>
+                    <div class="benefit-text">
+                        <h4>Segurança</h4>
+                        <p>Dados seguros no dispositivo local, controle total sobre as informações. 100% offline.</p>
+                    </div>
+                </div>
+                <div class="benefit-item scroll-reveal">
+                    <div class="benefit-icon">M</div>
+                    <div class="benefit-text">
+                        <h4>Mobilidade</h4>
+                        <p>Trabalhe em qualquer lugar, mesmo sem internet. Ideal para áreas remotas.</p>
+                    </div>
+                </div>
+                <div class="benefit-item scroll-reveal">
+                    <div class="benefit-icon">R</div>
+                    <div class="benefit-text">
+                        <h4>Rastreabilidade</h4>
+                        <p>Histórico completo de inspeções, relatórios organizados e fácil acesso a dados históricos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Inspector App</h3>
+                    <p>Solução completa para inspeções, prevetnivas e corretivas com tecnologia móvel avançada.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Recursos</h3>
+                    <p>• Inspeções personalizadas<br>
+                       • Modelos padronizados<br>
+                       • Relatórios PDF<br>
+                       • Múltiplas evidências</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Suporte</h3>
+                    <p>Para dúvidas e suporte técnico:<br>Email: joao.henrique.camelo@vale.com <br> Celular: (98) 99993-5887</p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #555; padding-top: 2rem; margin-top: 2rem;">
+                <p>&copy; 2025 Desenvolvido por <a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank">João Vieira</a></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+
